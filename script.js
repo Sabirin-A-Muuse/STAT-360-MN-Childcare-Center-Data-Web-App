@@ -150,11 +150,6 @@ function performSearch() {
     }
 
 
-    /*
-       Send the user to the Explore page
-       with their search term.
-    */
-
     window.location.href =
         `explore.html?search=${encodeURIComponent(searchValue)}`;
 
@@ -182,4 +177,5 @@ searchInput.addEventListener(
         }
 
     }
+
 );
