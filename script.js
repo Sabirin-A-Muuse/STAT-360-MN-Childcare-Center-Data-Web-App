@@ -1,51 +1,144 @@
-```javascript
 /* =================================
    Minnesota Childcare Explorer
-   Part 1 - Main Page
+   Part 4 - Real Dataset
 ================================= */
-
-
-/* ---------------------------------
-   Temporary Statistics
-   ---------------------------------
-
-   These are intentionally left blank
-   until we connect the real Minnesota
-   childcare dataset.
-
---------------------------------- */
-
-const statistics = {
-    centers: "—",
-    counties: "—",
-    cities: "—"
-};
-
-
-/* Display statistics */
-
-document.getElementById("centerCount").textContent =
-    statistics.centers;
-
-document.getElementById("countyCount").textContent =
-    statistics.counties;
-
-document.getElementById("cityCount").textContent =
-    statistics.cities;
 
 
 /* =================================
-   Search
+   LOAD REAL MINNESOTA DATA
 ================================= */
 
-const searchInput = document.getElementById("searchInput");
-const searchButton = document.getElementById("searchButton");
-const searchMessage = document.getElementById("searchMessage");
+Papa.parse("data/childcare.csv", {
+
+    download: true,
+
+    header: true,
+
+    skipEmptyLines: true,
+
+    complete: function(results) {
+
+        const childcareCenters = results.data.filter(
+            row => row["Name of Program"]
+        );
+
+
+        /* -----------------------------
+           Calculate Statistics
+        ----------------------------- */
+
+        const centerCount =
+            childcareCenters.length;
+
+
+        const counties = new Set(
+            childcareCenters
+                .map(row => clean(row["County"]))
+                .filter(county => county !== "")
+        );
+
+
+        const cities = new Set(
+            childcareCenters
+                .map(row => clean(row["City"]))
+                .filter(city => city !== "")
+        );
+
+
+        /* -----------------------------
+           Display Statistics
+        ----------------------------- */
+
+        document.getElementById("centerCount").textContent =
+            centerCount.toLocaleString();
+
+
+        document.getElementById("countyCount").textContent =
+            counties.size.toLocaleString();
+
+
+        document.getElementById("cityCount").textContent =
+            cities.size.toLocaleString();
+
+
+        console.log(
+            "Loaded childcare centers:",
+            centerCount
+        );
+
+        console.log(
+            "Minnesota counties:",
+            counties.size
+        );
+
+        console.log(
+            "Minnesota cities:",
+            cities.size
+        );
+
+    },
+
+
+    error: function(error) {
+
+        console.error(
+            "Error loading childcare CSV:",
+            error
+        );
+
+        document.getElementById("centerCount").textContent =
+            "—";
+
+        document.getElementById("countyCount").textContent =
+            "—";
+
+        document.getElementById("cityCount").textContent =
+            "—";
+
+    }
+
+});
+
+
+/* =================================
+   CLEAN DATA
+================================= */
+
+function clean(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(value).trim();
+
+}
+
+
+/* =================================
+   HOMEPAGE SEARCH
+================================= */
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const searchButton =
+    document.getElementById("searchButton");
+
+const searchMessage =
+    document.getElementById("searchMessage");
 
 
 function performSearch() {
 
-    const searchValue = searchInput.value.trim();
+    const searchValue =
+        searchInput.value.trim();
+
 
     if (searchValue === "") {
 
@@ -53,60 +146,40 @@ function performSearch() {
             "Enter a city, county, or ZIP code to search.";
 
         return;
+
     }
 
 
-    searchMessage.textContent =
-        `Searching for "${searchValue}"...`;
-
-
     /*
-        Later, this will connect to the
-        childcare data and show matching
-        childcare centers.
-
-        For now, it simply demonstrates
-        that the search box is working.
+       Send the user to the Explore page
+       with their search term.
     */
 
-    setTimeout(function () {
+    window.location.href =
+        `explore.html?search=${encodeURIComponent(searchValue)}`;
 
-        searchMessage.textContent =
-            "The childcare search feature will be available when the Minnesota dataset is connected.";
-
-    }, 700);
 }
 
 
 /* Search button */
 
-searchButton.addEventListener("click", performSearch);
+searchButton.addEventListener(
+    "click",
+    performSearch
+);
 
 
-/* Search when pressing Enter */
+/* Search with Enter */
 
-searchInput.addEventListener("keypress", function(event) {
+searchInput.addEventListener(
+    "keypress",
+    function(event) {
 
-    if (event.key === "Enter") {
+        if (event.key === "Enter") {
 
-        performSearch();
+            performSearch();
+
+        }
 
     }
-
-});
-
-
-/* =================================
-   Explore Button
-================================= */
-
-const exploreButton =
-    document.getElementById("exploreButton");
-
-
-exploreButton.addEventListener("click", function() {
-
-    window.location.href = "explore.html";
-
-});
-```
+);
