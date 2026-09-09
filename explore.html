@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Explore Childcare | MN Childcare Explorer</title>
+
+    <link rel="stylesheet" href="explore.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                MN Childcare Explorer
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="explore.html" class="active">Explore</a>
+                <a href="#">Data</a>
+                <a href="#">About</a>
+            </div>
+
+        </div>
+    </nav>
+
+
+    <!-- Page Header -->
+    <header class="explore-header">
+
+        <div class="header-content">
+
+            <p class="eyebrow">MINNESOTA CHILDCARE DATA</p>
+
+            <h1>Explore Childcare Centers</h1>
+
+            <p>
+                Search and filter childcare programs across Minnesota.
+                Use the filters to narrow down the results.
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- Main Explore Area -->
+    <main class="explore-container">
+
+        <!-- Search and Filters -->
+        <section class="filter-section">
+
+            <div class="search-container">
+
+                <label for="searchInput">Search</label>
+
+                <div class="search-box">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by center, city, county, or ZIP code..."
+                    >
+
+                    <button id="searchButton">
+                        Search
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="filters">
+
+                <div class="filter-group">
+
+                    <label for="countyFilter">
+                        County
+                    </label>
+
+                    <select id="countyFilter">
+
+                        <option value="all">
+                            All Counties
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="statusFilter">
+                        License Status
+                    </label>
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Statuses
+                        </option>
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Conditional">
+                            Conditional
+                        </option>
+
+                        <option value="Closed">
+                            Closed
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="typeFilter">
+                        Program Type
+                    </label>
+
+                    <select id="typeFilter">
+
+                        <option value="all">
+                            All Types
+                        </option>
+
+                        <option value="Child Care Center">
+                            Child Care Center
+                        </option>
+
+                        <option value="Family Child Care">
+                            Family Child Care
+                        </option>
+
+                        <option value="Preschool">
+                            Preschool
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button id="clearFilters" class="clear-button">
+                    Clear Filters
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Results Area -->
+        <section class="results-section">
+
+            <div class="results-header">
+
+                <div>
+                    <h2>Childcare Programs</h2>
+
+                    <p id="resultsCount">
+                        Showing 0 results
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="results-layout">
+
+                <!-- Results List -->
+                <div class="results-list" id="resultsList">
+
+                    <!-- JavaScript will insert results here -->
+
+                </div>
+
+
+                <!-- Details Panel -->
+                <aside class="details-panel" id="detailsPanel">
+
+                    <div class="details-placeholder">
+
+                        <div class="placeholder-icon">
+                            +
+                        </div>
+
+                        <h3>Select a childcare program</h3>
+
+                        <p>
+                            Click on a result to view more information
+                            about the program.
+                        </p>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <p>
+                © 2026 MN Childcare Explorer
+            </p>
+
+            <p>
+                Data project using public Minnesota licensing information
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="explore.js"></script>
+
+</body>
+</html>
