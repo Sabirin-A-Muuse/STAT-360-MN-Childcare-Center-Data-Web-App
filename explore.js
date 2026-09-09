@@ -1,248 +1,155 @@
-/* ==========================================
-   MN CHILDCARE EXPLORER
-   PART 2 - EXPLORE PAGE
-========================================== */
-
-
-/* ==========================================
-   DEMO DATA
-
-   This is temporary data.
-
-   Later we will replace this with the
-   actual Minnesota childcare dataset.
-========================================== */
-
-const childcareData = [
-
-    {
-        id: 1,
-        name: "Example Early Learning Center",
-        city: "St. Cloud",
-        county: "Stearns",
-        zip: "56301",
-        status: "Active",
-        type: "Child Care Center",
-        license: "DEMO-001",
-        address: "Example Address, St. Cloud, MN",
-        description: "Demo childcare program used for testing the Minnesota Childcare Explorer."
-    },
-
-    {
-        id: 2,
-        name: "North Star Childcare Demo",
-        city: "Minneapolis",
-        county: "Hennepin",
-        zip: "55401",
-        status: "Active",
-        type: "Child Care Center",
-        license: "DEMO-002",
-        address: "Example Address, Minneapolis, MN",
-        description: "Demo childcare program used for testing the search and filtering system."
-    },
-
-    {
-        id: 3,
-        name: "Prairie Kids Demo Center",
-        city: "Rochester",
-        county: "Olmsted",
-        zip: "55901",
-        status: "Active",
-        type: "Preschool",
-        license: "DEMO-003",
-        address: "Example Address, Rochester, MN",
-        description: "Demo preschool program for the Minnesota Childcare Explorer project."
-    },
-
-    {
-        id: 4,
-        name: "Lakeside Demo Childcare",
-        city: "Duluth",
-        county: "St. Louis",
-        zip: "55802",
-        status: "Conditional",
-        type: "Child Care Center",
-        license: "DEMO-004",
-        address: "Example Address, Duluth, MN",
-        description: "Demo childcare center with a conditional license status."
-    },
-
-    {
-        id: 5,
-        name: "River Valley Demo Center",
-        city: "Mankato",
-        county: "Blue Earth",
-        zip: "56001",
-        status: "Closed",
-        type: "Child Care Center",
-        license: "DEMO-005",
-        address: "Example Address, Mankato, MN",
-        description: "Demo program used to test closed license filtering."
-    },
-
-    {
-        id: 6,
-        name: "Central Minnesota Demo Preschool",
-        city: "Sartell",
-        county: "Stearns",
-        zip: "56377",
-        status: "Active",
-        type: "Preschool",
-        license: "DEMO-006",
-        address: "Example Address, Sartell, MN",
-        description: "Demo preschool program located in Central Minnesota."
-    },
-
-    {
-        id: 7,
-        name: "Twin Cities Demo Childcare",
-        city: "St. Paul",
-        county: "Ramsey",
-        zip: "55101",
-        status: "Active",
-        type: "Family Child Care",
-        license: "DEMO-007",
-        address: "Example Address, St. Paul, MN",
-        description: "Demo family childcare program used for testing."
-    },
-
-    {
-        id: 8,
-        name: "South Metro Demo Learning Center",
-        city: "Burnsville",
-        county: "Dakota",
-        zip: "55337",
-        status: "Active",
-        type: "Child Care Center",
-        license: "DEMO-008",
-        address: "Example Address, Burnsville, MN",
-        description: "Demo childcare center used for testing filters."
-    },
-
-    {
-        id: 9,
-        name: "Lakes Country Demo Preschool",
-        city: "Brainerd",
-        county: "Crow Wing",
-        zip: "56401",
-        status: "Active",
-        type: "Preschool",
-        license: "DEMO-009",
-        address: "Example Address, Brainerd, MN",
-        description: "Demo preschool program."
-    },
-
-    {
-        id: 10,
-        name: "Northland Demo Family Childcare",
-        city: "Grand Rapids",
-        county: "Itasca",
-        zip: "55744",
-        status: "Conditional",
-        type: "Family Child Care",
-        license: "DEMO-010",
-        address: "Example Address, Grand Rapids, MN",
-        description: "Demo family childcare program with conditional status."
-    }
-
-];
-
-
-/* ==========================================
-   GET HTML ELEMENTS
-========================================== */
+let childcareCenters = [];
+let filteredCenters = [];
 
 const searchInput = document.getElementById("searchInput");
-
-const searchButton = document.getElementById("searchButton");
-
 const countyFilter = document.getElementById("countyFilter");
-
 const statusFilter = document.getElementById("statusFilter");
-
 const typeFilter = document.getElementById("typeFilter");
-
-const clearFilters = document.getElementById("clearFilters");
-
-const resultsList = document.getElementById("resultsList");
-
+const clearFiltersButton = document.getElementById("clearFilters");
 const resultsCount = document.getElementById("resultsCount");
-
+const resultsContainer = document.getElementById("resultsContainer");
 const detailsPanel = document.getElementById("detailsPanel");
 
 
-/* ==========================================
-   CREATE COUNTY FILTER OPTIONS
-========================================== */
+// ----------------------------------------
+// LOAD REAL MINNESOTA DATA
+// ----------------------------------------
+
+Papa.parse("data/childcare.csv", {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+
+    complete: function(results) {
+
+        childcareCenters = results.data
+            .filter(row => row["Name of Program"])
+            .map(row => ({
+                licenseNumber: clean(row["License Number"]),
+                licenseType: clean(row["License Type"]),
+                name: clean(row["Name of Program"]),
+                address: clean(row["AddressLine1"]),
+                address2: clean(row["AddressLine2"]),
+                city: clean(row["City"]),
+                state: clean(row["State"]),
+                zip: clean(row["Zip"]),
+                county: clean(row["County"]),
+                phone: clean(row["Phone"]),
+                status: clean(row["License Status"]),
+                licenseHolder: clean(row["License Holder"]),
+                capacity: clean(row["Capacity"]),
+                typeOfLicense: clean(row["Type Of License"]),
+                restrictions: clean(row["Restrictions"]),
+                services: clean(row["Services"]),
+                licensingAuthority: clean(row["Licensing Authority"]),
+                initialDate: clean(row["Initial Effective Date"]),
+                currentDate: clean(row["Current Effective Date"]),
+                expirationDate: clean(row["Expiration Date"]),
+                livesOnsite: clean(row["License Holder Lives Onsite"]),
+                email: clean(row["EmailAddress"])
+            }));
+
+        filteredCenters = [...childcareCenters];
+
+        populateCountyFilter();
+        renderResults();
+
+        console.log("Loaded childcare records:", childcareCenters.length);
+    },
+
+    error: function(error) {
+        console.error("Error loading childcare CSV:", error);
+
+        resultsContainer.innerHTML = `
+            <div class="no-results">
+                <h3>Unable to load childcare data</h3>
+                <p>
+                    Please make sure the childcare.csv file is located
+                    inside the data folder.
+                </p>
+            </div>
+        `;
+    }
+});
+
+
+// ----------------------------------------
+// CLEAN DATA
+// ----------------------------------------
+
+function clean(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value).trim();
+}
+
+
+// ----------------------------------------
+// POPULATE COUNTY DROPDOWN
+// ----------------------------------------
 
 function populateCountyFilter() {
 
-    const counties = childcareData
-        .map(program => program.county)
-        .filter((county, index, array) => {
-            return array.indexOf(county) === index;
-        })
-        .sort();
+    const counties = [
+        ...new Set(
+            childcareCenters
+                .map(center => center.county)
+                .filter(county => county !== "")
+        )
+    ].sort();
+
+    countyFilter.innerHTML = `
+        <option value="">All Counties</option>
+    `;
 
     counties.forEach(county => {
 
         const option = document.createElement("option");
 
         option.value = county;
-
-        option.textContent = county + " County";
+        option.textContent = county;
 
         countyFilter.appendChild(option);
-
     });
-
 }
 
 
-/* ==========================================
-   FILTER DATA
-========================================== */
+// ----------------------------------------
+// APPLY FILTERS
+// ----------------------------------------
 
-function getFilteredData() {
+function applyFilters() {
 
     const searchTerm = searchInput.value
         .toLowerCase()
         .trim();
 
     const selectedCounty = countyFilter.value;
-
     const selectedStatus = statusFilter.value;
-
     const selectedType = typeFilter.value;
 
-
-    return childcareData.filter(program => {
+    filteredCenters = childcareCenters.filter(center => {
 
         const matchesSearch =
-
-            program.name.toLowerCase().includes(searchTerm) ||
-
-            program.city.toLowerCase().includes(searchTerm) ||
-
-            program.county.toLowerCase().includes(searchTerm) ||
-
-            program.zip.includes(searchTerm);
-
+            searchTerm === "" ||
+            center.name.toLowerCase().includes(searchTerm) ||
+            center.city.toLowerCase().includes(searchTerm) ||
+            center.county.toLowerCase().includes(searchTerm) ||
+            center.zip.toLowerCase().includes(searchTerm);
 
         const matchesCounty =
-            selectedCounty === "all" ||
-            program.county === selectedCounty;
-
+            selectedCounty === "" ||
+            center.county === selectedCounty;
 
         const matchesStatus =
-            selectedStatus === "all" ||
-            program.status === selectedStatus;
-
+            selectedStatus === "" ||
+            center.status === selectedStatus;
 
         const matchesType =
-            selectedType === "all" ||
-            program.type === selectedType;
-
+            selectedType === "" ||
+            center.licenseType === selectedType;
 
         return (
             matchesSearch &&
@@ -250,314 +157,284 @@ function getFilteredData() {
             matchesStatus &&
             matchesType
         );
-
     });
 
+    renderResults();
 }
 
 
-/* ==========================================
-   DISPLAY RESULTS
-========================================== */
+// ----------------------------------------
+// RENDER RESULTS
+// ----------------------------------------
 
 function renderResults() {
 
-    const filteredData = getFilteredData();
-
-
-    /* Update result count */
-
     resultsCount.textContent =
-        `Showing ${filteredData.length} result${filteredData.length === 1 ? "" : "s"}`;
+        `${filteredCenters.length} childcare programs found`;
 
+    resultsContainer.innerHTML = "";
 
-    /* Clear previous results */
+    if (filteredCenters.length === 0) {
 
-    resultsList.innerHTML = "";
-
-
-    /* Empty state */
-
-    if (filteredData.length === 0) {
-
-        resultsList.innerHTML = `
-
-            <div class="empty-state">
-
+        resultsContainer.innerHTML = `
+            <div class="no-results">
                 <h3>No childcare programs found</h3>
-
                 <p>
-                    Try changing your search or clearing some filters.
+                    Try changing your search or filters.
                 </p>
-
             </div>
-
         `;
 
         return;
     }
 
+    filteredCenters.forEach((center, index) => {
 
-    /* Create cards */
-
-    filteredData.forEach(program => {
-
-        const card = document.createElement("article");
+        const card = document.createElement("div");
 
         card.className = "result-card";
 
-        card.dataset.id = program.id;
-
-
         card.innerHTML = `
+            <div class="result-card-header">
 
-            <div class="result-top">
+                <h3>${escapeHTML(center.name)}</h3>
 
-                <div>
-
-                    <h3>${program.name}</h3>
-
-                    <p class="location">
-                        ${program.city}, MN
-                    </p>
-
-                </div>
-
-                <span class="status ${program.status.toLowerCase()}">
-                    ${program.status}
+                <span class="status-badge ${getStatusClass(center.status)}">
+                    ${escapeHTML(center.status || "Unknown")}
                 </span>
 
             </div>
 
+            <p class="result-location">
+                ${escapeHTML(center.city)}, MN
+            </p>
 
-            <div class="result-info">
+            <p>
+                <strong>County:</strong>
+                ${escapeHTML(center.county || "Not available")}
+            </p>
 
-                <span class="info-tag">
-                    ${program.county} County
-                </span>
+            <p>
+                <strong>ZIP:</strong>
+                ${escapeHTML(center.zip || "Not available")}
+            </p>
 
-                <span class="info-tag">
-                    ${program.zip}
-                </span>
+            <p>
+                <strong>License Type:</strong>
+                ${escapeHTML(center.licenseType || "Not available")}
+            </p>
 
-                <span class="info-tag">
-                    ${program.type}
-                </span>
-
-            </div>
-
+            <button
+                class="details-button"
+                onclick="showDetails(${index})">
+                View Details
+            </button>
         `;
 
-
-        card.addEventListener("click", function () {
-
-            showDetails(program);
-
-            document
-                .querySelectorAll(".result-card")
-                .forEach(item => {
-                    item.classList.remove("selected");
-                });
-
-            card.classList.add("selected");
-
-        });
-
-
-        resultsList.appendChild(card);
-
+        resultsContainer.appendChild(card);
     });
-
 }
 
 
-/* ==========================================
-   SHOW DETAILS
-========================================== */
+// ----------------------------------------
+// SHOW DETAILS
+// ----------------------------------------
 
-function showDetails(program) {
+function showDetails(index) {
+
+    const center = filteredCenters[index];
+
+    if (!center) {
+        return;
+    }
 
     detailsPanel.innerHTML = `
 
-        <div class="details-content">
+        <div class="details-header">
 
-            <h2>
-                ${program.name}
-            </h2>
+            <h2>${escapeHTML(center.name)}</h2>
 
-
-            <span class="status ${program.status.toLowerCase()} details-status">
-                ${program.status}
+            <span class="status-badge ${getStatusClass(center.status)}">
+                ${escapeHTML(center.status || "Unknown")}
             </span>
-
-
-            <div class="detail-section">
-
-                <h4>Location</h4>
-
-                <p>
-                    ${program.address}
-                </p>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <h4>County</h4>
-
-                <p>
-                    ${program.county} County
-                </p>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <h4>ZIP Code</h4>
-
-                <p>
-                    ${program.zip}
-                </p>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <h4>Program Type</h4>
-
-                <p>
-                    ${program.type}
-                </p>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <h4>License Number</h4>
-
-                <p>
-                    ${program.license}
-                </p>
-
-            </div>
-
-
-            <div class="detail-section">
-
-                <h4>About</h4>
-
-                <p>
-                    ${program.description}
-                </p>
-
-            </div>
 
         </div>
 
-    `;
+        <div class="detail-section">
 
-}
-
-
-/* ==========================================
-   SEARCH BUTTON
-========================================== */
-
-searchButton.addEventListener("click", function () {
-
-    renderResults();
-
-});
-
-
-/* ==========================================
-   SEARCH WHEN PRESSING ENTER
-========================================== */
-
-searchInput.addEventListener("keydown", function (event) {
-
-    if (event.key === "Enter") {
-
-        renderResults();
-
-    }
-
-});
-
-
-/* ==========================================
-   FILTER EVENTS
-========================================== */
-
-countyFilter.addEventListener("change", function () {
-
-    renderResults();
-
-});
-
-
-statusFilter.addEventListener("change", function () {
-
-    renderResults();
-
-});
-
-
-typeFilter.addEventListener("change", function () {
-
-    renderResults();
-
-});
-
-
-/* ==========================================
-   CLEAR FILTERS
-========================================== */
-
-clearFilters.addEventListener("click", function () {
-
-    searchInput.value = "";
-
-    countyFilter.value = "all";
-
-    statusFilter.value = "all";
-
-    typeFilter.value = "all";
-
-
-    detailsPanel.innerHTML = `
-
-        <div class="details-placeholder">
-
-            <div class="placeholder-icon">
-                +
-            </div>
-
-            <h3>Select a childcare program</h3>
+            <h3>Location</h3>
 
             <p>
-                Click on a result to view more information
-                about the program.
+                <strong>Address:</strong>
+                ${escapeHTML(center.address || "Not available")}
+            </p>
+
+            <p>
+                <strong>City:</strong>
+                ${escapeHTML(center.city || "Not available")}
+            </p>
+
+            <p>
+                <strong>County:</strong>
+                ${escapeHTML(center.county || "Not available")}
+            </p>
+
+            <p>
+                <strong>ZIP:</strong>
+                ${escapeHTML(center.zip || "Not available")}
+            </p>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h3>License Information</h3>
+
+            <p>
+                <strong>License Number:</strong>
+                ${escapeHTML(center.licenseNumber || "Not available")}
+            </p>
+
+            <p>
+                <strong>License Type:</strong>
+                ${escapeHTML(center.licenseType || "Not available")}
+            </p>
+
+            <p>
+                <strong>License Holder:</strong>
+                ${escapeHTML(center.licenseHolder || "Not available")}
+            </p>
+
+            <p>
+                <strong>Capacity:</strong>
+                ${escapeHTML(center.capacity || "Not available")}
+            </p>
+
+            <p>
+                <strong>Services:</strong>
+                ${escapeHTML(center.services || "Not available")}
+            </p>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h3>License Dates</h3>
+
+            <p>
+                <strong>Initial Effective Date:</strong>
+                ${escapeHTML(center.initialDate || "Not available")}
+            </p>
+
+            <p>
+                <strong>Current Effective Date:</strong>
+                ${escapeHTML(center.currentDate || "Not available")}
+            </p>
+
+            <p>
+                <strong>Expiration Date:</strong>
+                ${escapeHTML(center.expirationDate || "Not available")}
+            </p>
+
+        </div>
+
+
+        <div class="detail-section">
+
+            <h3>Contact</h3>
+
+            <p>
+                <strong>Phone:</strong>
+                ${escapeHTML(center.phone || "Not available")}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                ${escapeHTML(center.email || "Not available")}
             </p>
 
         </div>
 
     `;
+}
 
+
+// ----------------------------------------
+// STATUS COLORS
+// ----------------------------------------
+
+function getStatusClass(status) {
+
+    const value = status.toLowerCase();
+
+    if (value === "active") {
+        return "status-active";
+    }
+
+    if (value === "conditional") {
+        return "status-conditional";
+    }
+
+    if (value === "closed") {
+        return "status-closed";
+    }
+
+    return "";
+}
+
+
+// ----------------------------------------
+// CLEAR FILTERS
+// ----------------------------------------
+
+clearFiltersButton.addEventListener("click", function() {
+
+    searchInput.value = "";
+    countyFilter.value = "";
+    statusFilter.value = "";
+    typeFilter.value = "";
+
+    filteredCenters = [...childcareCenters];
 
     renderResults();
 
+    detailsPanel.innerHTML = `
+        <div class="details-placeholder">
+            <h2>Select a childcare program</h2>
+            <p>
+                Click "View Details" on a program to see
+                additional licensing information.
+            </p>
+        </div>
+    `;
 });
 
 
-/* ==========================================
-   INITIALIZE PAGE
-========================================== */
+// ----------------------------------------
+// FILTER EVENT LISTENERS
+// ----------------------------------------
 
-populateCountyFilter();
+searchInput.addEventListener("input", applyFilters);
 
-renderResults();
+countyFilter.addEventListener("change", applyFilters);
+
+statusFilter.addEventListener("change", applyFilters);
+
+typeFilter.addEventListener("change", applyFilters);
+
+
+// ----------------------------------------
+// ESCAPE HTML
+// ----------------------------------------
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
