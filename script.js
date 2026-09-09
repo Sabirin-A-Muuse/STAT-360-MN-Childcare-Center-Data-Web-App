@@ -106,14 +106,7 @@ const exploreButton =
 
 exploreButton.addEventListener("click", function() {
 
-    /*
-        The Explore page will be created
-        in a later part of the project.
-    */
-
-    document.getElementById("explore").scrollIntoView({
-        behavior: "smooth"
-    });
+    window.location.href = "explore.html";
 
 });
 ```
