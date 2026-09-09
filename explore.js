@@ -60,7 +60,7 @@ Papa.parse("data/childcare.csv", {
             }));
 
 
-        // Create a simplified status category
+        // Create a simplified status category 
         childcareCenters.forEach(center => {
             center.status = getStatusCategory(center.rawStatus);
         });
