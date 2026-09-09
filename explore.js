@@ -678,39 +678,21 @@ clearFiltersButton.addEventListener(
 );
 
 
-// ========================================
-// SEARCH AND FILTER EVENTS
-// ========================================
+/* =================================
+   HOMEPAGE SEARCH CONNECTION
+================================= */
 
-searchInput.addEventListener(
-    "input",
-    applyFilters
-);
+const urlParams = new URLSearchParams(window.location.search);
 
+const initialSearch = urlParams.get("search");
 
-searchButton.addEventListener(
-    "click",
-    applyFilters
-);
+if (initialSearch) {
 
+    searchInput.value = initialSearch;
 
-countyFilter.addEventListener(
-    "change",
-    applyFilters
-);
+    applyFilters();
 
-
-statusFilter.addEventListener(
-    "change",
-    applyFilters
-);
-
-
-typeFilter.addEventListener(
-    "change",
-    applyFilters
-);
-
+}
 
 // ========================================
 // ESCAPE HTML
