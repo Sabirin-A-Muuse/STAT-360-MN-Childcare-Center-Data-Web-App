@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Childcare Data | MN Childcare Explorer</title>
+
+    <link rel="stylesheet" href="data.css">
+
+</head>
+
+
+<body>
+
+    <!-- ================================
+         NAVIGATION
+    ================================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                MN Childcare Explorer
+            </a>
+
+            <div class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="explore.html">
+                    Explore
+                </a>
+
+                <a href="data.html" class="active">
+                    Data
+                </a>
+
+                <a href="index.html#about">
+                    About
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================================
+         PAGE HEADER
+    ================================= -->
+
+    <main>
+
+        <section class="data-header">
+
+            <div class="container">
+
+                <p class="eyebrow">
+                    Minnesota Childcare Data
+                </p>
+
+                <h1>
+                    Explore the Data
+                </h1>
+
+                <p class="header-description">
+                    Explore patterns in Minnesota childcare
+                    licensing data using the current public
+                    dataset.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             SUMMARY CARDS
+        ================================= -->
+
+        <section class="summary-section">
+
+            <div class="container">
+
+                <div class="summary-grid">
+
+                    <div class="summary-card">
+
+                        <span class="summary-label">
+                            Childcare Centers
+                        </span>
+
+                        <strong id="totalCenters">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <span class="summary-label">
+                            Counties
+                        </span>
+
+                        <strong id="totalCounties">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <span class="summary-label">
+                            Cities
+                        </span>
+
+                        <strong id="totalCities">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <span class="summary-label">
+                            Total Capacity
+                        </span>
+
+                        <strong id="totalCapacity">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             CHARTS
+        ================================= -->
+
+        <section class="charts-section">
+
+            <div class="container">
+
+                <div class="charts-grid">
+
+
+                    <!-- COUNTY CHART -->
+
+                    <div class="chart-card chart-wide">
+
+                        <div class="chart-heading">
+
+                            <h2>
+                                Childcare Centers by County
+                            </h2>
+
+                            <p>
+                                The 10 counties with the most
+                                childcare centers.
+                            </p>
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <canvas id="countyChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS CHART -->
+
+                    <div class="chart-card">
+
+                        <div class="chart-heading">
+
+                            <h2>
+                                License Status
+                            </h2>
+
+                            <p>
+                                Distribution of license statuses
+                                in the dataset.
+                            </p>
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <canvas id="statusChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CAPACITY CHART -->
+
+                    <div class="chart-card">
+
+                        <div class="chart-heading">
+
+                            <h2>
+                                Capacity by County
+                            </h2>
+
+                            <p>
+                                Total licensed capacity for the
+                                10 largest counties.
+                            </p>
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <canvas id="capacityChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             DATA NOTE
+        ================================= -->
+
+        <section class="data-note">
+
+            <div class="container">
+
+                <div class="note-box">
+
+                    <h2>
+                        About this data
+                    </h2>
+
+                    <p>
+                        The dashboard uses the Minnesota
+                        childcare licensing dataset included
+                        with this project. The data contains
+                        information such as program name,
+                        location, county, license status, and
+                        licensed capacity.
+                    </p>
+
+                    <a href="explore.html"
+                       class="primary-button">
+
+                        Explore Individual Centers
+
+                        <span>→</span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <p>
+                MN Childcare Explorer
+            </p>
+
+            <p>
+                Public data project
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================================
+         SCRIPTS
+    ================================= -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="data.js"></script>
+
+</body>
+
+</html>
