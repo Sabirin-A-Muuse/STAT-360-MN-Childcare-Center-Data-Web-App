@@ -647,6 +647,3 @@ function getCountyColor(count) {
     return "#1d4ed8";
 
 }
-    );
-
-}
