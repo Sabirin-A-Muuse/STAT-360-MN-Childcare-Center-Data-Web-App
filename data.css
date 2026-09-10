@@ -1,0 +1,353 @@
+/* =================================
+   MN CHILDCARE EXPLORER
+   DATA DASHBOARD
+================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f8fa;
+    color: #1f2937;
+}
+
+.container {
+    width: min(1150px, 92%);
+    margin: 0 auto;
+}
+
+
+/* =================================
+   NAVBAR
+================================= */
+
+.navbar {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    width: min(1150px, 92%);
+    margin: auto;
+
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: #111827;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+}
+
+.nav-links a {
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav-links a:hover {
+    color: #111827;
+}
+
+.nav-links a.active {
+    color: #111827;
+    font-weight: 700;
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+.data-header {
+    background: white;
+    padding: 70px 0 55px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    color: #6b7280;
+}
+
+.data-header h1 {
+    margin: 0 0 18px;
+
+    font-size: clamp(36px, 5vw, 54px);
+    line-height: 1.1;
+
+    color: #111827;
+}
+
+.header-description {
+    max-width: 650px;
+
+    margin: 0;
+
+    font-size: 18px;
+    line-height: 1.7;
+
+    color: #6b7280;
+}
+
+
+/* =================================
+   SUMMARY CARDS
+================================= */
+
+.summary-section {
+    padding: 45px 0 20px;
+}
+
+.summary-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.summary-card {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.summary-label {
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.summary-card strong {
+    font-size: 30px;
+    color: #111827;
+}
+
+
+/* =================================
+   CHART SECTION
+================================= */
+
+.charts-section {
+    padding: 25px 0 60px;
+}
+
+.charts-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 22px;
+}
+
+.chart-card {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    padding: 25px;
+
+    min-height: 430px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.03);
+}
+
+.chart-wide {
+    grid-column: 1 / -1;
+}
+
+.chart-heading h2 {
+    margin: 0 0 8px;
+
+    font-size: 21px;
+    color: #111827;
+}
+
+.chart-heading p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.chart-container {
+    position: relative;
+
+    height: 330px;
+
+    margin-top: 25px;
+}
+
+
+/* =================================
+   DATA NOTE
+================================= */
+
+.data-note {
+    padding: 0 0 70px;
+}
+
+.note-box {
+    background: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    padding: 35px;
+}
+
+.note-box h2 {
+    margin-top: 0;
+
+    font-size: 23px;
+
+    color: #111827;
+}
+
+.note-box p {
+    max-width: 800px;
+
+    color: #6b7280;
+
+    line-height: 1.7;
+}
+
+.primary-button {
+    display: inline-flex;
+
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 12px;
+
+    padding: 12px 18px;
+
+    border-radius: 8px;
+
+    background: #111827;
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+.primary-button:hover {
+    opacity: 0.9;
+}
+
+
+/* =================================
+   FOOTER
+================================= */
+
+.footer {
+    background: white;
+
+    border-top: 1px solid #e5e7eb;
+
+    padding: 25px 0;
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 850px) {
+
+    .summary-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-wide {
+        grid-column: auto;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .nav-container {
+        flex-direction: column;
+
+        gap: 15px;
+
+        padding: 18px 0;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .data-header {
+        padding: 50px 0 40px;
+    }
+
+    .chart-card {
+        padding: 18px;
+    }
+
+    .footer .container {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+}
