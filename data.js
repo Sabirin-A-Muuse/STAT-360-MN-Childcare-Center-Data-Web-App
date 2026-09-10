@@ -389,9 +389,13 @@ function createCapacityChart(centers) {
             }
 
         }
+   
+    );
+
+}
        /* =================================
-   MINNESOTA COUNTY MAP
-================================= */
+            MINNESOTA COUNTY MAP
+         ================================= */
 
 function createMinnesotaMap(centers) {
 
