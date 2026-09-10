@@ -92,7 +92,8 @@ Papa.parse("data/childcare.csv", {
         createStatusChart(centers);
 
         createCapacityChart(centers);
-
+       
+        createMinnesotaMap(centers);
     },
 
 
@@ -388,6 +389,260 @@ function createCapacityChart(centers) {
             }
 
         }
+       /* =================================
+   MINNESOTA COUNTY MAP
+================================= */
+
+function createMinnesotaMap(centers) {
+
+    const countyCounts = {};
+
+
+    /* -----------------------------
+       Count centers by county
+    ----------------------------- */
+
+    centers.forEach(function(center) {
+
+        const county =
+            clean(center["County"]);
+
+        if (county === "") {
+            return;
+        }
+
+        if (!countyCounts[county]) {
+            countyCounts[county] = 0;
+        }
+
+        countyCounts[county]++;
+
+    });
+
+
+    /* -----------------------------
+       Create Leaflet map
+    ----------------------------- */
+
+    const map =
+        L.map("mnMap", {
+
+            zoomControl: true,
+
+            scrollWheelZoom: false
+
+        });
+
+
+    /* Minnesota starting position */
+
+    map.setView(
+        [46.3, -94.3],
+        6
+    );
+
+
+    /* -----------------------------
+       Add map background
+    ----------------------------- */
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            attribution:
+                '&copy; OpenStreetMap contributors'
+        }
+    ).addTo(map);
+
+
+    /* -----------------------------
+       Load Minnesota counties
+    ----------------------------- */
+
+    fetch(
+        "https://raw.githubusercontent.com/josephwarrick/geojson/master/minnesota.geojson"
+    )
+
+        .then(function(response) {
+
+            return response.json();
+
+        })
+
+        .then(function(geojson) {
+
+            L.geoJSON(
+                geojson,
+                {
+
+                    style: function(feature) {
+
+                        const countyName =
+                            clean(
+                                feature.properties.NAME ||
+                                feature.properties.name ||
+                                feature.properties.NAME10
+                            );
+
+                        const normalizedName =
+                            countyName
+                                .replace(
+                                    / county$/i,
+                                    ""
+                                )
+                                .trim();
+
+                        const count =
+                            countyCounts[normalizedName] || 0;
+
+
+                        return {
+
+                            fillColor:
+                                getCountyColor(count),
+
+                            weight: 1,
+
+                            opacity: 1,
+
+                            color: "#ffffff",
+
+                            fillOpacity: 0.75
+
+                        };
+
+                    },
+
+
+                    onEachFeature:
+                        function(
+                            feature,
+                            layer
+                        ) {
+
+                            const countyName =
+                                clean(
+                                    feature.properties.NAME ||
+                                    feature.properties.name ||
+                                    feature.properties.NAME10
+                                );
+
+
+                            const normalizedName =
+                                countyName
+                                    .replace(
+                                        / county$/i,
+                                        ""
+                                    )
+                                    .trim();
+
+
+                            const count =
+                                countyCounts[
+                                    normalizedName
+                                ] || 0;
+
+
+                            layer.bindTooltip(
+
+                                `<strong>${normalizedName} County</strong><br>
+                                 Childcare Centers: ${count}`,
+
+                                {
+                                    sticky: true
+                                }
+
+                            );
+
+
+                            layer.on({
+
+                                mouseover:
+                                    function(event) {
+
+                                        event.target.setStyle({
+
+                                            weight: 2,
+
+                                            color: "#111827",
+
+                                            fillOpacity: 0.9
+
+                                        });
+
+                                    },
+
+
+                                mouseout:
+                                    function(event) {
+
+                                        event.target.setStyle({
+
+                                            weight: 1,
+
+                                            color: "#ffffff",
+
+                                            fillOpacity: 0.75
+
+                                        });
+
+                                    }
+
+                            });
+
+                        }
+
+                }
+
+            ).addTo(map);
+
+        })
+
+        .catch(function(error) {
+
+            console.error(
+                "Error loading Minnesota county map:",
+                error
+            );
+
+        });
+
+}
+
+
+/* =================================
+   MAP COLORS
+================================= */
+
+function getCountyColor(count) {
+
+    if (count === 0) {
+        return "#f3f4f6";
+    }
+
+    if (count <= 5) {
+        return "#dbeafe";
+    }
+
+    if (count <= 20) {
+        return "#93c5fd";
+    }
+
+    if (count <= 50) {
+        return "#60a5fa";
+    }
+
+    if (count <= 100) {
+        return "#3b82f6";
+    }
+
+    if (count <= 200) {
+        return "#2563eb";
+    }
+
+    return "#1d4ed8";
+
+}
     );
 
 }
