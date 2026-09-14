@@ -1,1 +1,464 @@
+/* =================================
+   MN CHILDCARE EXPLORER
+   ABOUT PAGE
+================================= */
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f7f8fa;
+
+    color: #1f2937;
+}
+
+.container {
+    width: min(1150px, 92%);
+
+    margin: 0 auto;
+}
+
+
+/* =================================
+   NAVBAR
+================================= */
+
+.navbar {
+    background: white;
+
+    border-bottom:
+        1px solid #e5e7eb;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+}
+
+.nav-container {
+    width: min(1150px, 92%);
+
+    margin: auto;
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.logo {
+    color: #111827;
+
+    text-decoration: none;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+
+    gap: 28px;
+}
+
+.nav-links a {
+    color: #4b5563;
+
+    text-decoration: none;
+
+    font-size: 15px;
+}
+
+.nav-links a:hover {
+    color: #111827;
+}
+
+.nav-links a.active {
+    color: #111827;
+
+    font-weight: 700;
+}
+
+
+/* =================================
+   HEADER
+================================= */
+
+.about-header {
+    background: white;
+
+    padding: 75px 0 60px;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    color: #6b7280;
+}
+
+.about-header h1 {
+    margin: 0 0 18px;
+
+    font-size:
+        clamp(36px, 5vw, 54px);
+
+    line-height: 1.1;
+
+    color: #111827;
+}
+
+.header-description {
+    max-width: 650px;
+
+    margin: 0;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: #6b7280;
+}
+
+
+/* =================================
+   ABOUT SECTION
+================================= */
+
+.about-section {
+    padding: 60px 0 30px;
+}
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 22px;
+}
+
+.about-card {
+    background: white;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 32px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.03);
+}
+
+.about-card h2 {
+    margin-top: 0;
+
+    margin-bottom: 18px;
+
+    font-size: 23px;
+
+    color: #111827;
+}
+
+.about-card p {
+    color: #6b7280;
+
+    line-height: 1.7;
+}
+
+
+/* =================================
+   DATA SOURCE
+================================= */
+
+.source-section {
+    padding: 30px 0 60px;
+}
+
+.source-box {
+    background: white;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.03);
+}
+
+.source-box h2 {
+    margin-top: 0;
+
+    margin-bottom: 15px;
+
+    font-size: 25px;
+
+    color: #111827;
+}
+
+.source-box p {
+    max-width: 850px;
+
+    color: #6b7280;
+
+    line-height: 1.7;
+}
+
+
+/* =================================
+   FEATURES
+================================= */
+
+.features-section {
+    padding: 0 0 60px;
+}
+
+.section-heading {
+    margin-bottom: 25px;
+}
+
+.section-heading h2 {
+    margin: 0;
+
+    font-size: 30px;
+
+    color: #111827;
+}
+
+.features-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+.feature-card {
+    background: white;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0, 0, 0, 0.03);
+}
+
+.feature-number {
+    margin-bottom: 20px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #6b7280;
+}
+
+.feature-card h3 {
+    margin: 0 0 12px;
+
+    font-size: 21px;
+
+    color: #111827;
+}
+
+.feature-card p {
+    margin: 0;
+
+    color: #6b7280;
+
+    line-height: 1.7;
+}
+
+
+/* =================================
+   PURPOSE
+================================= */
+
+.purpose-section {
+    padding: 0 0 70px;
+}
+
+.purpose-box {
+    background: #111827;
+
+    border-radius: 14px;
+
+    padding: 40px;
+}
+
+.purpose-box h2 {
+    margin-top: 0;
+
+    margin-bottom: 15px;
+
+    color: white;
+
+    font-size: 27px;
+}
+
+.purpose-box p {
+    max-width: 800px;
+
+    color: #d1d5db;
+
+    line-height: 1.7;
+}
+
+.button-group {
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+    margin-top: 25px;
+}
+
+.primary-button,
+.secondary-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 18px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+.primary-button {
+    background: white;
+
+    color: #111827;
+}
+
+.primary-button:hover {
+    opacity: 0.9;
+}
+
+.secondary-button {
+    border:
+        1px solid #6b7280;
+
+    color: white;
+}
+
+.secondary-button:hover {
+    background: #1f2937;
+}
+
+
+/* =================================
+   FOOTER
+================================= */
+
+.footer {
+    background: white;
+
+    border-top:
+        1px solid #e5e7eb;
+
+    padding: 25px 0;
+}
+
+.footer .container {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 850px) {
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .nav-container {
+        flex-direction: column;
+
+        gap: 15px;
+
+        padding: 18px 0;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .about-header {
+        padding: 50px 0 40px;
+    }
+
+    .about-card,
+    .source-box,
+    .feature-card,
+    .purpose-box {
+        padding: 25px;
+    }
+
+    .footer .container {
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+}
